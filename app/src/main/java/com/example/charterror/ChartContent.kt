@@ -4,21 +4,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.dp
-import com.patrykandpatrick.vico.multiplatform.cartesian.AutoScrollCondition
-import com.patrykandpatrick.vico.multiplatform.cartesian.CartesianChartHost
-import com.patrykandpatrick.vico.multiplatform.cartesian.Zoom
-import com.patrykandpatrick.vico.multiplatform.cartesian.axis.HorizontalAxis
-import com.patrykandpatrick.vico.multiplatform.cartesian.axis.HorizontalAxis.ItemPlacer
-import com.patrykandpatrick.vico.multiplatform.cartesian.axis.VerticalAxis
-import com.patrykandpatrick.vico.multiplatform.cartesian.axis.rememberAxisLabelComponent
-import com.patrykandpatrick.vico.multiplatform.cartesian.data.CartesianChartModelProducer
-import com.patrykandpatrick.vico.multiplatform.cartesian.data.CartesianValueFormatter
-import com.patrykandpatrick.vico.multiplatform.cartesian.data.lineSeries
-import com.patrykandpatrick.vico.multiplatform.cartesian.layer.rememberLineCartesianLayer
-import com.patrykandpatrick.vico.multiplatform.cartesian.rememberCartesianChart
-import com.patrykandpatrick.vico.multiplatform.cartesian.rememberVicoScrollState
-import com.patrykandpatrick.vico.multiplatform.cartesian.rememberVicoZoomState
-import com.patrykandpatrick.vico.multiplatform.common.component.TextComponent
+import com.patrykandpatrick.vico.compose.cartesian.CartesianChartHost
+import com.patrykandpatrick.vico.compose.cartesian.axis.rememberAxisLabelComponent
+import com.patrykandpatrick.vico.compose.cartesian.axis.rememberBottom
+import com.patrykandpatrick.vico.compose.cartesian.axis.rememberStart
+import com.patrykandpatrick.vico.compose.cartesian.layer.rememberLineCartesianLayer
+import com.patrykandpatrick.vico.compose.cartesian.rememberCartesianChart
+import com.patrykandpatrick.vico.compose.cartesian.rememberVicoScrollState
+import com.patrykandpatrick.vico.compose.cartesian.rememberVicoZoomState
+import com.patrykandpatrick.vico.core.cartesian.AutoScrollCondition
+import com.patrykandpatrick.vico.core.cartesian.Zoom
+import com.patrykandpatrick.vico.core.cartesian.axis.HorizontalAxis
+import com.patrykandpatrick.vico.core.cartesian.axis.VerticalAxis
+import com.patrykandpatrick.vico.core.cartesian.data.CartesianChartModelProducer
+import com.patrykandpatrick.vico.core.cartesian.data.CartesianValueFormatter
+import com.patrykandpatrick.vico.core.cartesian.data.lineSeries
+import com.patrykandpatrick.vico.core.common.component.TextComponent
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
@@ -50,12 +51,12 @@ fun ChartContent() {
             startAxis = VerticalAxis.rememberStart(),
             bottomAxis = HorizontalAxis.rememberBottom(
                 itemPlacer = remember {
-                    ItemPlacer.aligned(
+                    HorizontalAxis.ItemPlacer.aligned(
                         spacing = { 1 }
-                    )
+                        )
                 },
 
-                label = rememberAxisLabelComponent(minWidth = TextComponent.MinWidth.fixed(111.dp)),
+                label = rememberAxisLabelComponent(minWidth = TextComponent.MinWidth.fixed(111f)),
                 valueFormatter = remember {
                     CartesianValueFormatter { context, value, verticalAxisPosition ->
                         val toLocalDateTime = Instant.ofEpochSecond(value.toLong())
